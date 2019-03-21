@@ -34,13 +34,12 @@ let save = repo => {
     });
 };
 
-let remove = (repo) => {
-  return Favorites.findOneAndDelete(
-    { movie: repo.name },
-  ).exec()
-  .catch(error => {
-    console.log(`Error removing movie from favorites --> ${error}`)
-  })
+let remove = repo => {
+  return Favorites.findOneAndDelete({ movie: repo.name })
+    .exec()
+    .catch(error => {
+      console.log(`Error removing movie from favorites --> ${error}`);
+    });
 };
 
 let retrieve = () => {};
