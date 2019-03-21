@@ -42,7 +42,10 @@ let remove = repo => {
     });
 };
 
-let retrieve = () => {};
+let retrieve = () => {
+  return Favorites.find({})
+  .exec()
+};
 
 module.exports.db = db;
 module.exports.save = save;
