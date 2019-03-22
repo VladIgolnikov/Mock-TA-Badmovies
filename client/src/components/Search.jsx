@@ -13,6 +13,7 @@ class Search extends React.Component {
 
   componentDidMount() {
     this.getGenres();
+    this.props.getMovies(this.state.currentGenreID);
   }
 
   getGenres() {
@@ -57,7 +58,6 @@ class Search extends React.Component {
         <button
           onClick={() => {
             this.props.getMovies(this.state.currentGenreID);
-            console.log('passing down this genreID-->', this.state.currentGenreID)
           }}
         >   
           Search

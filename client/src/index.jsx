@@ -19,8 +19,6 @@ class App extends React.Component {
   }
 
   getMovies(genreID) {
-    // make an axios request to your server on the GET SEARCH endpoint
-    console.log('genreID in index.jsx is -->', genreID)
     axios
       .post('/search', { genre_id: genreID })
       .then(response => { this.setState({movies: response.data.results}) })
