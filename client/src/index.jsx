@@ -23,7 +23,8 @@ class App extends React.Component {
     console.log('genreID in index.jsx is -->', genreID)
     axios
       .post('/search', { genre_id: genreID })
-      .then(response => { console.log('response data is-->', response.data)})
+      .then(response => { this.setState({movies: response.data.results}) })
+              
   }
   
 
