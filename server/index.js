@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-const { getGenres, getMoviesByGenre } = require('../helpers/apiHelpers.js');
-const { save, remove, retrieve } = require('../../db/mongodb');
+const { getGenres, getMoviesByGenre } = require('./helpers/apiHelpers.js');
+const { save, remove, retrieve } = require('../db/mongodb');
 
 var app = express();
 
@@ -13,7 +13,7 @@ app.get('/search', (req, res) => {
     if (err) {
       console.log(`Error getting movies by genre --> ${err}`);
     } else {
-      res.send(200, movies);
+      res.status(200).send(movies);
     }
   });
 });
@@ -23,7 +23,7 @@ app.get('/genres', (req, res) => {
     if (err) {
       console.log(`Error getting list of genres --> ${err}`);
     } else {
-      res.send(200, genres);
+      res.status(200).send(genres);
     }
   });
 });

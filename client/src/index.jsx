@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 // import AnyComponent from './components/filename.jsx'
+import axios from 'axios';
 import Search from './components/Search.jsx'
 import Movies from './components/Movies.jsx'
 
