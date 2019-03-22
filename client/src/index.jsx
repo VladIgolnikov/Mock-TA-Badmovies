@@ -15,12 +15,17 @@ class App extends React.Component {
       showFaves: false,
     };
     
-    // you might have to do something important here!
+  this.getMovies = this.getMovies.bind(this)
   }
 
-  getMovies() {
+  getMovies(genreID) {
     // make an axios request to your server on the GET SEARCH endpoint
+    console.log('genreID in index.jsx is -->', genreID)
+    axios
+      .post('/search', { genre_id: genreID })
+      .then(response => { console.log('response data is-->', response.data)})
   }
+  
 
   saveMovie() {
     // same as above but do something diff
@@ -43,7 +48,7 @@ class App extends React.Component {
         <header className="navbar"><h1>Bad Movies</h1></header> 
         
         <div className="main">
-          <Search swapFavorites={this.swapFavorites} showFaves={this.state.showFaves}/>
+          <Search swapFavorites={this.swapFavorites} showFaves={this.state.showFaves} getMovies={this.getMovies}/>
           <Movies movies={this.state.showFaves ? this.state.favorites : this.state.movies} showFaves={this.state.showFaves}/>
         </div>
       </div>

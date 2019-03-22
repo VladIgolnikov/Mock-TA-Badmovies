@@ -8,8 +8,9 @@ var app = express();
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
-app.get('/search', (req, res) => {
+app.post('/search', (req, res) => {
   getMoviesByGenre(req.body.genre_id, (err, movies) => {
+    console.log('request body looks like -->', req.body)
     if (err) {
       console.log(`Error getting movies by genre --> ${err}`);
     } else {
