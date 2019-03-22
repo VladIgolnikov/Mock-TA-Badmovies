@@ -22,10 +22,10 @@ let favoriteSchema = mongoose.Schema({
 
 let Favorites = mongoose.model('Favorites', favoriteSchema);
 
-let save = repo => {
+let save = movie => {
   return Favorites.findOneAndUpdate(
-    { movie: repo.name },
-    { movie: repo.name },
+    { movie: movie.name },
+    { movie: movie.name },
     { upsert: true }
   )
     .exec()
@@ -34,8 +34,8 @@ let save = repo => {
     });
 };
 
-let remove = repo => {
-  return Favorites.findOneAndDelete({ movie: repo.name })
+let remove = movie => {
+  return Favorites.findOneAndDelete({ movie: movie.name })
     .exec()
     .catch(error => {
       console.log(`Error removing movie from favorites --> ${error}`);
