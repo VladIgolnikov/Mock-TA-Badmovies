@@ -17,15 +17,25 @@ db.once('open', () => {
 });
 
 let favoriteSchema = mongoose.Schema({
-  movie: { type: String, unique: true }
+  title: { type: String, unique: true },
+  poster_path: { type: String },
+  release_date: { type: String },
+  vote_average: { type: Number }
 });
 
 let Favorites = mongoose.model('Favorites', favoriteSchema);
 
 let save = movie => {
   return Favorites.findOneAndUpdate(
-    { movie: movie.name },
-    { movie: movie.name },
+    {
+      title: movie.title
+    },
+    {
+      title: movie.title,
+      poster_path: movie.poser_path,
+      release_date: movie.release_date,
+      vote_average: movie.vote_average
+    },
     { upsert: true }
   )
     .exec()
@@ -35,7 +45,7 @@ let save = movie => {
 };
 
 let remove = movie => {
-  return Favorites.findOneAndDelete({ movie: movie.name })
+  return Favorites.findOneAndDelete({ movie: movie.title })
     .exec()
     .catch(error => {
       console.log(`Error removing movie from favorites --> ${error}`);
@@ -43,8 +53,7 @@ let remove = movie => {
 };
 
 let retrieve = () => {
-  return Favorites.find({})
-  .exec()
+  return Favorites.find({}).exec();
 };
 
 module.exports.db = db;

@@ -32,6 +32,7 @@ getMoviesByGenre = (genre_id, callback) =>{
     { 
       with_genres: `${genre_id}`,
       sort_by: 'vote_average.asc',
+      'vote_count.gte': 50,
       api_key: `${API_KEY}`
     },
     headers: {
