@@ -17,9 +17,16 @@ class Movies extends React.Component {
       <ul className="movies">
         {this.props.movies.map((movie, index)=>{return (
           <li className="movie_item" key={index}>
-            <img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}`} data-movie={movie.title} onClick={(e)=>{console.log(e.target.dataset)}}/>
+            <img 
+            src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}`}
+            data-title={movie.title} 
+            data-poster_path={movie.poster_path}
+            data-release_date={movie.release_date}
+            data-vote_average={movie.vote_average}
+            onClick={(e)=>{this.props.showFaves ? this.props.deleteMovie(e.target.dataset) : this.props.saveMovie(e.target.dataset)}}
+            />
             <div className="movie_description">
-              <h2 data-movie={movie.title} onClick={(e)=>{console.log(e.target.dataset.movie)}}>{movie.title}</h2>
+              <h2>{movie.title}</h2>
               <section className="movie_details">
                 <div className="movie_year">
                   <span className="title">Release Date</span>

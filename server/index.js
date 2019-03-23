@@ -30,13 +30,14 @@ app.get('/genres', (req, res) => {
 
 app.get('/favorites', (req, res) => {
   retrieve()
-    .then(favorites => res.send(favorites))
+    .then(results => res.send(results))
     .catch(error => {
       console.log(`Could not retrieve Favorites from db --> ${error}`)
     });
 });
 
 app.post('/favorites', (req, res) => {
+  console.log("saving --------------->", req.body.movie)
   save(req.body.movie)
     .then(() => {
       res.sendStatus(201);
@@ -47,6 +48,7 @@ app.post('/favorites', (req, res) => {
 });
 
 app.delete('/favorites', (req, res) => {
+  console.log("deleting --------------->", req.body.movie)
   remove(req.body.movie)
   .then(()=>{
     res.sendStatus(201);

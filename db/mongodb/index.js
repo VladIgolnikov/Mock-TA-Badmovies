@@ -18,9 +18,9 @@ db.once('open', () => {
 
 let favoriteSchema = mongoose.Schema({
   title: { type: String, unique: true },
-  poster_path: { type: String },
-  release_date: { type: String },
-  vote_average: { type: Number }
+  poster_path: String,
+  release_date: String,
+  vote_average: Number
 });
 
 let Favorites = mongoose.model('Favorites', favoriteSchema);
@@ -45,7 +45,8 @@ let save = movie => {
 };
 
 let remove = movie => {
-  return Favorites.findOneAndDelete({ movie: movie.title })
+  console.log('movie looks like this to remove:', movie);
+  return Favorites.findOneAndDelete({ title: movie.title })
     .exec()
     .catch(error => {
       console.log(`Error removing movie from favorites --> ${error}`);
