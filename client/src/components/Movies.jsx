@@ -17,7 +17,7 @@ class Movies extends React.Component {
       <ul className="movies">
         {this.props.movies.map((movie, index)=>{return (
           <li className="movie_item" key={index}>
-            <img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}`} data-movie={movie.title} onClick={(e)=>{console.log(e.target.dataset.movie)}}/>
+            <img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}`} data-movie={movie.title} onClick={(e)=>{console.log(e.target.dataset)}}/>
             <div className="movie_description">
               <h2 data-movie={movie.title} onClick={(e)=>{console.log(e.target.dataset.movie)}}>{movie.title}</h2>
               <section className="movie_details">
