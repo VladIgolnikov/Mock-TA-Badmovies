@@ -1,64 +1,61 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var request = require('request')
+var { getGenres, getMoviesByGenre } = require('./helpers/apiHelpers.js');
+var { save, remove, retrieve } = require('../db/mongodb');
 var app = express();
 
-// Sign up and get your moviedb API key here:
-// https://www.themoviedb.org/account/signup
-
-
-//Helpers
-var apiHelpers = require('./helpers/apiHelpers.js');
-
-//Middleware
 app.use(bodyParser.json());
 
-// Due to express, when you load the page, it doesn't make a get request to '/', it simply serves up the dist folder
 app.use(express.static(__dirname + '/../client/dist'));
 
-
-//OPTION 1: Use regular routes
-
-app.get('/genres', function(req, res) {
-  // make an axios request to get the official list of genres from themoviedb
-  
-  // use this endpoint. you will need your API key from signup: https://api.themoviedb.org/3/genre/movie/list
-
-  // send back
+app.get('/genres', (req, res) => {
+  getGenres((err, genres) => {
+    if (err) {
+      res.status(500).send(`Could not access genres --> ${err}`);
+    } else res.status(200).send(genres);
+  });
 });
 
-app.get('/search', function(req, res) {
-  // use this endpoint to search for movies by genres (using API key): https://api.themoviedb.org/3/discover/movie
-
-  // and sort them by votes (worst first) using the search parameters in themoviedb API
+app.post('/search', (req, res) => {
+  getMoviesByGenre(req.body.genre, (err, movies)=>{
+    if (err) {
+      res.status(500).send(`Could not access movies --> ${err}`);
+    } else res.status(200).send(movies);
+  })
 });
 
-
-app.post('/save', function(req, res) {
-
-  //save movie as favorite
-
+app.get('/favorites', (req, res) => {
+  retrieve()
+    .then(results => {
+      res.send(results);
+    })
+    .catch(error => {
+      console.log(`Error retrieving Favorites (from server) --> ${error}`);
+    });
 });
 
-app.post('/delete', function(req, res) {
-
-  //remove movie from favorites
-
+app.post('/favorites', (req, res) => {
+  save(req.body.movie)
+    .then(res => {
+      res.sendStatus(201);
+    })
+    .catch(error => {
+      console.log(`Error saving movie to DB (from server) --> ${error}`);
+    });
 });
 
+app.delete('/favorites', (req, res) => {
+  remove(req.body.movie)
+    .then(res => {
+      res.sendStatus(201);
+    })
+    .catch(error => {
+      console.log(
+        `Error removing movie from Favorites (from server) --> ${error}`
+      );
+    });
+});
 
-//OPTION 2: Use Express Router
-
-//IF you decide to go with this option, delete OPTION 1 to continue
-
-//Routes
-
-const movieRoutes = require('./routes/movieRoutes.js');
-
-//Use routes
-app.use('/movies', movieRoutes);
-
-
-app.listen(3000, function() {
+app.listen(3000, () => {
   console.log('listening on port 3000!');
 });

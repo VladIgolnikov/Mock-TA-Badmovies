@@ -1,12 +1,29 @@
-const request = require('request');
 const axios = require('axios');
 const { API_KEY } = require('../../config.js');
 
-// write out logic/functions required to query TheMovieDB.org
+var getGenres = callback => {
+  axios
+    .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`)
+    .then(response => {
+      callback(response);
+    })
+    .catch(error => {
+      console.log(`Error getting genres from API --> ${error}`);
+    });
+};
 
-// FOR REFERENCE:
-// https://www.themoviedb.org/account/signup
-// https://developers.themoviedb.org/3/discover/movie-discover
-// Get your API Key and save it in your config file
+var getMoviesByGenre = (genre_id, callback) => {
+  axios
+    .get(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=vote_average.asc&page=1&vote_count.gte=75&with_genres=${genre_id}`
+    )
+    .then(response => {
+      callback(response);
+    })
+    .catch(error => {
+      console.log(`Error retrieving movies for this genre --> ${error}`);
+    });
+};
 
-// Don't forget to export your functions and require them within your server file
+module.exports.getGenres = getGenres;
+module.exports.getMoviesByGenre = getMoviesByGenre;
