@@ -5,7 +5,7 @@ var getGenres = callback => {
   axios
     .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`)
     .then(response => {
-      callback(response);
+      callback(response.data);
     })
     .catch(error => {
       console.log(`Error getting genres from API --> ${error}`);

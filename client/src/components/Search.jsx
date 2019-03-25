@@ -1,5 +1,5 @@
 import React from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 
 class Search extends React.Component {
   constructor(props) {
@@ -13,11 +13,12 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.getGenres;
+    this.getGenres();
+    this.props.getMovies(this.state.currentId);
   }
 
   getGenres() {
-    Axios.get('/genres')
+    axios.get('/genres')
       .then(response => {
         this.setState({
           genres: response.data.genres
@@ -40,17 +41,15 @@ class Search extends React.Component {
         </button>
         <br />
         <br />
-
-        {/* Make the select options dynamic from genres !!! */}
-        {/* How can you tell which option has been selected from here? */}
-
         <select
-          onChange={e => this.setState({ currentId: parseInt(e.target.value) })}
+          onChange={e => {
+            this.setState({ currentId: parseInt(e.target.value) });
+          }}
         >
           {this.state.genres.map(genre => {
             return (
-              <option key='genre.id' value='genre.id'>
-                ${genre.name}
+              <option key={genre.id} value={genre.id}>
+                {genre.name}
               </option>
             );
           })}
@@ -58,7 +57,13 @@ class Search extends React.Component {
         <br />
         <br />
 
-        <button>Search</button>
+        <button
+          onClick={() => {
+            this.props.getMovies(this.state.currentId);
+          }}
+        >
+          Search
+        </button>
       </div>
     );
   }

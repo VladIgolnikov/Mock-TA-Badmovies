@@ -9,12 +9,11 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.get('/genres', (req, res) => {
-  getGenres((err, genres) => {
-    if (err) {
-      res.status(500).send(`Could not access genres --> ${err}`);
-    } else res.status(200).send(genres);
+  getGenres((genres) => {
+      res.status(200).send(genres);
+    })
   });
-});
+
 
 app.post('/search', (req, res) => {
   getMoviesByGenre(req.body.genre, (err, movies)=>{
@@ -46,7 +45,7 @@ app.post('/favorites', (req, res) => {
 
 app.delete('/favorites', (req, res) => {
   remove(req.body.movie)
-    .then(res => {
+    .then(() => {
       res.sendStatus(201);
     })
     .catch(error => {
